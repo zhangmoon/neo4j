@@ -72,6 +72,7 @@ import org.neo4j.kernel.impl.locking.LocksFactory;
 import org.neo4j.kernel.impl.locking.SimpleStatementLocksFactory;
 import org.neo4j.kernel.impl.locking.StatementLocksFactory;
 import org.neo4j.kernel.impl.query.QueryEngineProvider;
+import org.neo4j.kernel.impl.transaction.log.checkpoint.ConfigurableIOLimiter;
 import org.neo4j.kernel.lifecycle.Lifecycle;
 import org.neo4j.logging.Log;
 import org.neo4j.logging.LogProvider;
@@ -137,7 +138,7 @@ public class CommunityEditionModule extends StandaloneEditionModule
 
         constraintSemantics = createSchemaRuleVerifier();
 
-        ioLimiter = IOLimiter.UNLIMITED;
+        ioLimiter = new ConfigurableIOLimiter( globalConfig );
 
         connectionTracker = globalDependencies.satisfyDependency( createConnectionTracker() );
         globalAvailabilityGuard = globalModule.getGlobalAvailabilityGuard();
